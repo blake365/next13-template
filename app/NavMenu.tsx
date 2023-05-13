@@ -1,24 +1,18 @@
 import Link from 'next/link'
-import Image from 'next/image'
-
-import styles from './NavMenu.module.css'
 import { SignInButton } from '@/components/buttons'
 
 export default function NavMenu() {
 	return (
-		<nav className={styles.nav}>
+		<nav className='flex items-center justify-between h-20 bg-teal-600'>
 			<Link href='/'>
-				<Image src='/vercel.svg' width={72} height={30} alt='Vercel Logo' />
+				<h1 className='ml-4 text-2xl font-bold'>Lazy M Camping</h1>
 			</Link>
-			<ul className={styles.links}>
+			<ul className='flex mr-4 space-x-4 list-none'>
 				<li>
 					<Link href='/about'>About</Link>
 				</li>
 				<li>
 					<Link href='/blog'>Blog</Link>
-				</li>
-				<li>
-					<Link href='/users'>Users</Link>
 				</li>
 				<li>
 					<SignInButton />

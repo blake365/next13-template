@@ -1,23 +1,19 @@
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import { useSession } from 'next-auth/react'
-import { redirect } from 'next/navigation'
-import { getServerSession } from 'next-auth/next'
-import { authOptions } from './api/auth/[...nextauth]/route'
+import { prisma } from '@/lib/prisma'
 
-const inter = Inter({ subsets: ['latin'] })
+import CampsiteCard from '@/components/campsiteCard'
 
 export default async function Home() {
-	const session = await getServerSession(authOptions)
-	// console.log(session)
+	const campsites = await prisma.campsite.findMany()
 
-	if (!session) {
-		redirect('/api/auth/signin')
-	}
-
+	// console.log(campsites)
 	return (
-		<main className='flex flex-col items-center justify-between min-h-screen p-24'>
-			<h1>Hello World</h1>
+		<main className='flex flex-col items-center min-h-screen p-24'>
+			<h1>Welcome to the Farm</h1>
+			<h3>A unique camping experience</h3>
+			{campsites.map((camp) => (
+				<CampsiteCard camp={camp} key={camp.id} />
+			))}
 		</main>
 	)
 }

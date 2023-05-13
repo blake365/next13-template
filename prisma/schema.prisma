@@ -1,7 +1,7 @@
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL") // Only needed when using a cloud provider that doesn't support the creation of new databases, like Heroku. Learn more: https://pris.ly/d/migrate-shadow
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL") Only needed when using a cloud provider that doesn't support the creation of new databases, like Heroku. Learn more: https://pris.ly/d/migrate-shadow
 }
 
 generator client {
@@ -35,27 +35,66 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// user model for campsite website
 model User {
   id            String    @id @unique @default(cuid())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
-  image         String?
-  age           Int?
-  bio           String?
+  dateOfBirth   DateTime?
   accounts      Account[]
-  following     Follows[] @relation("follower")
-  followedBy    Follows[] @relation("following")
   sessions      Session[]
+  bookings      Booking[]
+  reviews       Review[]
 }
 
-model Follows {
-  followerId  String
-  followingId String
-  follower    User   @relation("follower", fields: [followerId], references: [id])
-  following   User   @relation("following", fields: [followingId], references: [id])
+model Campsite {
+  id          String    @id @unique @default(cuid())
+  name        String
+  updatedAt   DateTime  @updatedAt
+  description String?
+  location    String?
+  latitude    Float?
+  longitude   Float?
+  image       String?
+  capacity    Int?
+  pets        Boolean?
+  price       Int?
+  open        Boolean?
+  bookings    Booking[]
+  reviews     Review[]
+}
 
-  @@id([followerId, followingId])
+model Review {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String   @db.VarChar(255)
+  content   String?
+  rating    Int      @default(5)
+  campsite  Campsite @relation(fields: [campId], references: [id])
+  campId    String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+}
+
+model Booking {
+  id             String   @id @unique @default(cuid())
+  campsite       Campsite @relation(fields: [campsiteId], references: [id])
+  campsiteId     String
+  userId         String
+  startDate      DateTime
+  endDate        DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  User           User     @relation(fields: [userId], references: [id])
+  status         String   @default("pending")
+  numberOfNights Int
+  numberOfGuests Int
+  adults         Int
+  children       Int
+  pets           Int
+  totalCost      Float
 }
 
 model VerificationToken {
