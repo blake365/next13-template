@@ -1,29 +1,58 @@
+'use client'
 // card for displaying campsite information
 
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { Users } from '@phosphor-icons/react'
+
 export default function CampsiteCard({ camp }: any) {
 	// console.log(camp)
 	return (
-		<div className='flex flex-col items-center justify-between p-4 m-4 border-2 border-gray-200 rounded-md shadow-md'>
-			<div className='flex flex-col items-center justify-between w-full h-48'>
-				{/* <Image
-					src={camp.image}
-					alt={camp.title}
-					width={300}
-					height={200}
-					className='rounded-md'
-				/> */}
-				<h2 className='text-xl'>{camp.title}</h2>
+		<div className='flex flex-col items-center justify-between w-full p-4 m-4 sm:w-2/3 max-w-[400px] space-y-2'>
+			<Link href={`/campsite/${camp.slug}`}>
+				<Image
+					src='/IMG_5682.png'
+					alt={camp.slug}
+					width={400}
+					height={300}
+					className='rounded-md shadow-md'
+				/>
+			</Link>
+			<div className='flex flex-row items-center w-full'>
+				<h2 className='flex-grow text-xl font-bold'>{camp.name}</h2>
+				{camp.open ? (
+					<div className='px-2 text-sm text-green-600 border border-green-600 rounded-full'>
+						open
+					</div>
+				) : (
+					<div className='px-2 text-sm text-red-600 border border-red-600 rounded-full'>
+						closed
+					</div>
+				)}
 			</div>
-			<div className='flex flex-col items-center justify-between w-full h-48'>
-				<p>{camp.description}</p>
-				<p>{camp.capacity} people</p>
-				<p>${camp.price} / night</p>
-				<Link href={`/campsite/${camp.id}`}>
-					<button className='p-2 m-2 text-white bg-green-600 rounded-md shadow-md hover:bg-green-700'>
+			<div className='flex flex-row items-center w-full space-x-2'>
+				<div className='flex items-center px-1 text-lg text-teal-800 dark:text-teal-300'>
+					${camp.price}/night
+				</div>
+				<div className='flex items-center px-1 text-lg text-teal-800 dark:text-teal-300'>
+					<Users size={20} weight='fill' className='mr-1' />
+					{camp.capacity}
+				</div>
+			</div>
+			<div>{camp.shortDescription}</div>
+			<div className='flex flex-row justify-start w-full space-x-4'>
+				<Link href={`/campsite/${camp.slug}/book`}>
+					<button
+						className='px-2 py-1 text-white bg-teal-500 rounded-md shadow-md hover:bg-teal-700'
+						disabled={!camp.open}
+					>
 						Book Now
+					</button>
+				</Link>
+				<Link href={`/campsite/${camp.slug}`}>
+					<button className='px-2 py-1 text-teal-800 underline hover:text-teal-600 dark:text-teal-300'>
+						More Info
 					</button>
 				</Link>
 			</div>

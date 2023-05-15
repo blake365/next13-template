@@ -49,20 +49,22 @@ model User {
 }
 
 model Campsite {
-  id          String    @id @unique @default(cuid())
-  name        String
-  updatedAt   DateTime  @updatedAt
-  description String?
-  location    String?
-  latitude    Float?
-  longitude   Float?
-  image       String?
-  capacity    Int?
-  pets        Boolean?
-  price       Int?
-  open        Boolean?
-  bookings    Booking[]
-  reviews     Review[]
+  id               String    @id @unique @default(cuid())
+  name             String
+  slug             String?   @unique
+  updatedAt        DateTime  @updatedAt
+  longDescription  String?
+  shortDescription String?
+  location         String?
+  latitude         Float?
+  longitude        Float?
+  image            String?
+  capacity         Int?
+  pets             Boolean?
+  price            Int?
+  open             Boolean?
+  bookings         Booking[]
+  reviews          Review[]
 }
 
 model Review {
