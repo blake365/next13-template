@@ -58,7 +58,8 @@ model Campsite {
   location         String?
   latitude         Float?
   longitude        Float?
-  image            String?
+  mainImage        String?
+  images           String[]
   capacity         Int?
   pets             Boolean?
   price            Int?

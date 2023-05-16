@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { Users } from '@phosphor-icons/react'
 
 export default function CampsiteCard({ camp }: any) {
-	// console.log(camp)
+	console.log(camp.open)
 	return (
 		<div className='flex flex-col items-center justify-between w-full p-4 m-4 sm:w-2/3 max-w-[400px] space-y-2'>
 			<Link href={`/campsite/${camp.slug}`}>
@@ -42,14 +42,24 @@ export default function CampsiteCard({ camp }: any) {
 			</div>
 			<div>{camp.shortDescription}</div>
 			<div className='flex flex-row justify-start w-full space-x-4'>
-				<Link href={`/campsite/${camp.slug}/book`}>
+				{camp.open ? (
+					<Link href={`/campsite/${camp.slug}/book`}>
+						<button
+							className='px-2 py-1 text-white bg-teal-500 rounded-md shadow-md hover:bg-teal-700'
+							disabled={camp.open}
+						>
+							Book Now
+						</button>
+					</Link>
+				) : (
 					<button
-						className='px-2 py-1 text-white bg-teal-500 rounded-md shadow-md hover:bg-teal-700'
-						disabled={!camp.open}
+						className='px-2 py-1 text-black bg-gray-300 rounded-md shadow-md'
+						disabled={true}
 					>
-						Book Now
+						Closed
 					</button>
-				</Link>
+				)}
+
 				<Link href={`/campsite/${camp.slug}`}>
 					<button className='px-2 py-1 text-teal-800 underline hover:text-teal-600 dark:text-teal-300'>
 						More Info
