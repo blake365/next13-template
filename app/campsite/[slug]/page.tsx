@@ -1,7 +1,10 @@
+import { CampsiteForm } from '@/app/admin/components/campsiteForm'
 import Carousel from '@/components/carousel'
 import { prisma } from '@/lib/prisma'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '../../api/auth/[...nextauth]/route'
 
 interface Props {
 	params: {
@@ -19,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // page containing detailed information about a campsite
 
 export default async function CampsiteDetail({ params }: Props) {
-	console.log(params.slug)
+	// console.log(params.slug)
 	const camp = await prisma.campsite.findUnique({
 		where: {
 			slug: params.slug,
@@ -29,6 +32,19 @@ export default async function CampsiteDetail({ params }: Props) {
 	if (!camp) {
 		redirect('/')
 	}
+
+	// const session = await getServerSession(authOptions)
+	// // console.log(session)
+
+	// const currentUserEmail = session?.user?.email!
+
+	// // console.log(currentUserEmail)
+	// const admin = await prisma.user.findFirst({
+	// 	where: {
+	// 		email: currentUserEmail,
+	// 		role: 'admin',
+	// 	},
+	// })
 
 	let allImages: string[] = []
 	camp.mainImage && allImages.push(camp.mainImage)
@@ -44,6 +60,7 @@ export default async function CampsiteDetail({ params }: Props) {
 
 			{/* cover image carousel */}
 			<div className=''>
+				{/* TODO: make responsive */}
 				<Carousel images={allImages} />
 			</div>
 			<div className='flex flex-col justify-center space-x-5 md:flex-row'>
@@ -52,12 +69,17 @@ export default async function CampsiteDetail({ params }: Props) {
 				<div>
 					<div>{camp.longDescription}</div>
 					<div>Camp amenities </div>
-					<div>{camp.reviews}</div>
+					<div>Reviews</div>
 				</div>
 
 				{/* booking calendar */}
 				<div>Calendar</div>
 			</div>
+			{/* {admin && (
+				<div>
+					<CampsiteForm campsite={camp} />
+				</div>
+			)} */}
 		</div>
 	)
 }
