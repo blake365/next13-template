@@ -3,6 +3,9 @@ import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import AdminCampWrapper from '@/components/adminCampWrapper'
+
 // admin dashboard with features to manage campsites, users, and bookings
 export default async function Dashboard() {
 	const session = await getServerSession(authOptions)
@@ -24,11 +27,22 @@ export default async function Dashboard() {
 	!admin && redirect('/api/auth/signin')
 
 	return (
-		<div className='flex flex-col items-center justify-start min-h-screen gap-4 p-4'>
+		<div className=''>
 			<h1 className='text-4xl'>Admin Dashboard</h1>
 
 			<div>
-				<h3>Campsites List</h3>
+				<Tabs defaultValue='bookings' className='mx-auto'>
+					<TabsList className=''>
+						<TabsTrigger value='bookings'>Bookings</TabsTrigger>
+						<TabsTrigger value='users'>Users</TabsTrigger>
+						<TabsTrigger value='campsites'>Campsites</TabsTrigger>
+					</TabsList>
+					<TabsContent value='bookings'>List of bookings here</TabsContent>
+					<TabsContent value='users'>List of users here</TabsContent>
+					<TabsContent value='campsites'>
+						<AdminCampWrapper admin={admin} />
+					</TabsContent>
+				</Tabs>
 			</div>
 		</div>
 	)

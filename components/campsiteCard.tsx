@@ -6,10 +6,11 @@ import Link from 'next/link'
 
 import { Users } from '@phosphor-icons/react'
 
-export default function CampsiteCard({ camp }: any) {
-	console.log(camp.open)
+export default function CampsiteCard({ camp, admin }: any) {
+	// console.log(camp.open)
 	return (
 		<div className='flex flex-col items-center justify-between w-full p-4 m-4 sm:w-2/3 max-w-[400px] space-y-2'>
+		
 			<Link href={`/campsite/${camp.slug}`}>
 				<Image
 					src='/IMG_5682.png'

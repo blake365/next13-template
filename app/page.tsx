@@ -22,7 +22,7 @@ export default async function Home() {
 			<h1 className='mt-2 text-6xl'>Welcome to the Farm</h1>
 			<h3 className='mt-1 text-3xl'>A unique camping experience</h3>
 			{campsites.map((camp) => (
-				<CampsiteCard camp={camp} key={camp.id} />
+				<CampsiteCard camp={camp} key={camp.id} admin={false} />
 			))}
 		</main>
 	)
