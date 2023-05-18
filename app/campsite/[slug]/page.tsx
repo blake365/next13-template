@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import Image from 'next/image'
+import ImageBlock from '@/components/imageBlock'
 
 interface Props {
 	params: {
@@ -31,57 +32,17 @@ export default async function CampsiteDetail({ params }: Props) {
 		redirect('/')
 	}
 
-	let allImages: string[] = []
-	camp.mainImage && allImages.push(camp.mainImage)
-
-	if (camp.images.length > 0) {
-		allImages = allImages.concat(camp.images)
-	}
+	let allImages = { main: '', image1: '', image2: '' }
+	allImages.main = camp.mainImage
+	allImages.image1 = camp.mainImage
+	allImages.image2 = camp.mainImage
 
 	return (
 		<div className='flex flex-col justify-start min-h-screen gap-4'>
 			{/* header */}
 			<h1 className='mt-4 text-5xl'>{camp.name}</h1>
 			{/* campsite images */}
-			<div className='flex sm:flex-row flex-col w-full sm:h-[500px] min-h-fit gap-2'>
-				{/* large image */}
-				<div className='relative h-full overflow-hidden min-h-[400px] sm:w-1/2'>
-					<Image
-						src={camp.mainImage!}
-						alt={camp.name}
-						// width={500}
-						// height={500}
-						fill={true}
-						className='rounded-md shadow-md'
-						style={{ objectFit: 'cover' }}
-					/>
-				</div>
-				{/* small images */}
-				<div className='flex flex-col h-full gap-2 sm:w-1/2'>
-					<div className='relative min-h-[200px] h-full  sm:h-1/2'>
-						<Image
-							src={camp.mainImage!}
-							alt={camp.name}
-							// width={500}
-							// height={500}
-							fill={true}
-							className='rounded-md shadow-md'
-							style={{ objectFit: 'cover' }}
-						/>
-					</div>
-					<div className='relative min-h-[200px] h-full sm:h-1/2'>
-						<Image
-							src={camp.mainImage!}
-							alt={camp.name}
-							// width={500}
-							// height={500}
-							fill={true}
-							className='rounded-md shadow-md'
-							style={{ objectFit: 'cover' }}
-						/>
-					</div>
-				</div>
-			</div>
+			<ImageBlock images={allImages} loading={false} />
 
 			{/* other information */}
 			<div className='flex flex-col justify-center space-x-5 md:flex-row'>

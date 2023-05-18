@@ -52,6 +52,7 @@ model User {
 model Campsite {
   id               String    @id @unique @default(cuid())
   name             String
+  subtitle         String?
   slug             String?   @unique
   updatedAt        DateTime  @updatedAt
   longDescription  String?
