@@ -1,10 +1,8 @@
-import { CampsiteForm } from '@/app/admin/components/campsiteForm'
 import Carousel from '@/components/carousel'
 import { prisma } from '@/lib/prisma'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '../../api/auth/[...nextauth]/route'
+import Image from 'next/image'
 
 interface Props {
 	params: {
@@ -33,19 +31,6 @@ export default async function CampsiteDetail({ params }: Props) {
 		redirect('/')
 	}
 
-	// const session = await getServerSession(authOptions)
-	// // console.log(session)
-
-	// const currentUserEmail = session?.user?.email!
-
-	// // console.log(currentUserEmail)
-	// const admin = await prisma.user.findFirst({
-	// 	where: {
-	// 		email: currentUserEmail,
-	// 		role: 'admin',
-	// 	},
-	// })
-
 	let allImages: string[] = []
 	camp.mainImage && allImages.push(camp.mainImage)
 
@@ -54,15 +39,51 @@ export default async function CampsiteDetail({ params }: Props) {
 	}
 
 	return (
-		<div className='flex flex-col items-center justify-start min-h-screen gap-4 p-4'>
+		<div className='flex flex-col justify-start min-h-screen gap-4'>
 			{/* header */}
-			<h1 className='text-5xl'>{camp.name}</h1>
-
-			{/* cover image carousel */}
-			<div className=''>
-				{/* TODO: make responsive */}
-				<Carousel images={allImages} />
+			<h1 className='mt-4 text-5xl'>{camp.name}</h1>
+			{/* campsite images */}
+			<div className='flex sm:flex-row flex-col w-full sm:h-[500px] min-h-fit gap-2'>
+				{/* large image */}
+				<div className='relative h-full overflow-hidden min-h-[400px] sm:w-1/2'>
+					<Image
+						src={camp.mainImage!}
+						alt={camp.name}
+						// width={500}
+						// height={500}
+						fill={true}
+						className='rounded-md shadow-md'
+						style={{ objectFit: 'cover' }}
+					/>
+				</div>
+				{/* small images */}
+				<div className='flex flex-col h-full gap-2 sm:w-1/2'>
+					<div className='relative min-h-[200px] h-full  sm:h-1/2'>
+						<Image
+							src={camp.mainImage!}
+							alt={camp.name}
+							// width={500}
+							// height={500}
+							fill={true}
+							className='rounded-md shadow-md'
+							style={{ objectFit: 'cover' }}
+						/>
+					</div>
+					<div className='relative min-h-[200px] h-full sm:h-1/2'>
+						<Image
+							src={camp.mainImage!}
+							alt={camp.name}
+							// width={500}
+							// height={500}
+							fill={true}
+							className='rounded-md shadow-md'
+							style={{ objectFit: 'cover' }}
+						/>
+					</div>
+				</div>
 			</div>
+
+			{/* other information */}
 			<div className='flex flex-col justify-center space-x-5 md:flex-row'>
 				{/* description */}
 

@@ -56,17 +56,47 @@ model Campsite {
   updatedAt        DateTime  @updatedAt
   longDescription  String?
   shortDescription String?
+  rules            String?
+  cancellation     String?
+  // location information
   location         String?
   latitude         Float?
   longitude        Float?
+  directions       String?
+  streetAddress    String?
+  city             String?
+  state            String?
+  zip              String?
+  // images
   mainImage        String?
+  image2           String?
+  image3           String?
+  mapImage         String?
   images           String[]
+  // stats
   capacity         Int?
   pets             Boolean?
   price            Int?
   open             Boolean?
+  // amenities
+  firePit          Boolean?
+  picnicTable      Boolean?
+  primitive        Boolean?
+  potableWater     Boolean?
+  toilets          Boolean?
+  // relationships
   bookings         Booking[]
   reviews          Review[]
+  addons           Addon[]
+}
+
+model Addon {
+  id       String    @id @unique @default(cuid())
+  name     String
+  price    Int
+  campsite Campsite  @relation(fields: [campId], references: [id])
+  campId   String
+  bookings Booking[]
 }
 
 model Review {
@@ -98,6 +128,8 @@ model Booking {
   adults         Int
   children       Int
   pets           Int
+  addons         Addon[]
+  addonIds       String[]
   totalCost      Float
 }
 

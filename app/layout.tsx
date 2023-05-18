@@ -20,7 +20,7 @@ export default function RootLayout({
 			<html lang='en'>
 				<body className={inter.className}>
 					<NavMenu />
-					<div className='p-4 mx-auto md:max-w-2xl'>{children}</div>
+					<div className='max-w-full p-4 mx-auto lg:max-w-4xl'>{children}</div>
 				</body>
 			</html>
 		</AuthProvider>
