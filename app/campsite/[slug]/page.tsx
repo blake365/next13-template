@@ -4,6 +4,7 @@ import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import Image from 'next/image'
 import ImageBlock from '@/components/imageBlock'
+import BookCalendar from '@/components/calendar'
 
 interface Props {
 	params: {
@@ -45,17 +46,19 @@ export default async function CampsiteDetail({ params }: Props) {
 			<ImageBlock images={allImages} loading={false} />
 
 			{/* other information */}
-			<div className='flex flex-col justify-center space-x-5 md:flex-row'>
+			<div className='flex flex-col sm:space-x-5 md:flex-row'>
 				{/* description */}
 
-				<div>
+				<div className='flex-grow'>
 					<div>{camp.longDescription}</div>
 					<div>Camp amenities </div>
 					<div>Reviews</div>
 				</div>
 
 				{/* booking calendar */}
-				<div>Calendar</div>
+				<div className=''>
+					<BookCalendar camp={camp} />
+				</div>
 			</div>
 			{/* {admin && (
 				<div>

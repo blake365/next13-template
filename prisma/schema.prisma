@@ -9,7 +9,7 @@ generator client {
 }
 
 model Account {
-  id                String  @id @default(cuid())
+  id                String  @id @default(uuid())
   userId            String
   type              String
   provider          String
@@ -28,7 +28,7 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @default(uuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
@@ -37,7 +37,7 @@ model Session {
 
 // user model for campsite website
 model User {
-  id            String    @id @unique @default(cuid())
+  id            String    @id @unique @default(uuid())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
@@ -50,7 +50,7 @@ model User {
 }
 
 model Campsite {
-  id               String    @id @unique @default(cuid())
+  id               String    @id @unique @default(uuid())
   name             String
   subtitle         String?
   slug             String?   @unique
@@ -92,7 +92,7 @@ model Campsite {
 }
 
 model Addon {
-  id       String    @id @unique @default(cuid())
+  id       String    @id @unique @default(uuid())
   name     String
   price    Int
   campsite Campsite  @relation(fields: [campId], references: [id])
@@ -114,7 +114,7 @@ model Review {
 }
 
 model Booking {
-  id             String   @id @unique @default(cuid())
+  id             String   @id @unique @default(uuid())
   campsite       Campsite @relation(fields: [campsiteId], references: [id])
   campsiteId     String
   userId         String
@@ -126,9 +126,9 @@ model Booking {
   status         String   @default("pending")
   numberOfNights Int
   numberOfGuests Int
-  adults         Int
-  children       Int
-  pets           Int
+  adults         Int?
+  children       Int?
+  pets           Int?
   addons         Addon[]
   addonIds       String[]
   totalCost      Float
