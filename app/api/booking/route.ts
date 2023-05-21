@@ -4,10 +4,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '../auth/[...nextauth]/route'
 
 // add a booking
-
-// add a campsite
 export async function POST(req: Request, res: Response) {
-	console.log('start POST /api/booking')
 	const session = await getServerSession(authOptions)
 
 	const currentUserEmail = session?.user?.email!
@@ -21,14 +18,13 @@ export async function POST(req: Request, res: Response) {
 		return NextResponse.error()
 	}
 
-	console.log('user', user)
+	// console.log('user', user)
 	const data = await req.json()
 
 	data.userId = user.id
-
-	console.log('data', data)
+	// console.log('data', data)
 	const booking = await prisma.booking.create({
-		data,
+		data: data,
 	})
 
 	return NextResponse.json(booking)

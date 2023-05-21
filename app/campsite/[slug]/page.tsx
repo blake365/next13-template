@@ -1,8 +1,6 @@
-import Carousel from '@/components/carousel'
 import { prisma } from '@/lib/prisma'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import Image from 'next/image'
 import ImageBlock from '@/components/imageBlock'
 import BookCalendar from '@/components/calendar'
 
@@ -27,11 +25,16 @@ export default async function CampsiteDetail({ params }: Props) {
 		where: {
 			slug: params.slug,
 		},
+		include: {
+			bookings: true,
+		},
 	})
 
 	if (!camp) {
 		redirect('/')
 	}
+
+	// console.log(camp)
 
 	let allImages = { main: '', image1: '', image2: '' }
 	allImages.main = camp.mainImage
@@ -39,9 +42,9 @@ export default async function CampsiteDetail({ params }: Props) {
 	allImages.image2 = camp.mainImage
 
 	return (
-		<div className='flex flex-col justify-start min-h-screen gap-4'>
+		<div className='flex flex-col justify-start min-h-screen gap-4 mb-6'>
 			{/* header */}
-			<h1 className='mt-4 text-5xl'>{camp.name}</h1>
+			<h1 className='mt-4 text-5xl font-bold'>{camp.name}</h1>
 			{/* campsite images */}
 			<ImageBlock images={allImages} loading={false} />
 
@@ -50,9 +53,8 @@ export default async function CampsiteDetail({ params }: Props) {
 				{/* description */}
 
 				<div className='flex-grow'>
-					<div>{camp.longDescription}</div>
+					<div className='text-lg'>{camp.longDescription}</div>
 					<div>Camp amenities </div>
-					<div>Reviews</div>
 				</div>
 
 				{/* booking calendar */}
@@ -60,11 +62,7 @@ export default async function CampsiteDetail({ params }: Props) {
 					<BookCalendar camp={camp} />
 				</div>
 			</div>
-			{/* {admin && (
-				<div>
-					<CampsiteForm campsite={camp} />
-				</div>
-			)} */}
+			<div>Reviews</div>
 		</div>
 	)
 }
