@@ -3,6 +3,8 @@ import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import ImageBlock from '@/components/imageBlock'
 import BookCalendar from '@/components/calendar'
+import StatsBlock from '@/components/statsBlock'
+import AmenityBlock from '@/components/amenityBlock'
 
 interface Props {
 	params: {
@@ -42,9 +44,20 @@ export default async function CampsiteDetail({ params }: Props) {
 	allImages.image2 = camp.mainImage
 
 	return (
-		<div className='flex flex-col justify-start min-h-screen gap-4 mb-6'>
+		<div className='flex flex-col justify-start min-h-screen gap-4 mb-6 '>
 			{/* header */}
-			<h1 className='mt-4 text-5xl font-bold'>{camp.name}</h1>
+			<div className='sticky top-0 z-10 flex flex-row items-center w-full py-4 mt-4 bg-white/75'>
+				<h1 className='flex-grow ml-2 text-5xl font-bold'>{camp.name}</h1>
+				{camp.open ? (
+					<div className='px-4 py-2 mr-2 text-xl text-green-600 border border-green-600 rounded-full'>
+						OPEN
+					</div>
+				) : (
+					<div className='px-4 py-2 mr-2 text-xl text-white bg-red-600 border border-red-600 rounded-full'>
+						CLOSED
+					</div>
+				)}
+			</div>
 			{/* campsite images */}
 			<ImageBlock images={allImages} loading={false} />
 
@@ -52,9 +65,10 @@ export default async function CampsiteDetail({ params }: Props) {
 			<div className='flex flex-col sm:space-x-5 md:flex-row'>
 				{/* description */}
 
-				<div className='flex-grow'>
-					<div className='text-lg'>{camp.longDescription}</div>
-					<div>Camp amenities </div>
+				<div className='flex-grow space-y-4'>
+					<StatsBlock camp={camp} />
+					<div className='px-4 text-lg'>{camp.longDescription}</div>
+					<AmenityBlock camp={camp} />
 				</div>
 
 				{/* booking calendar */}
@@ -62,6 +76,13 @@ export default async function CampsiteDetail({ params }: Props) {
 					<BookCalendar camp={camp} />
 				</div>
 			</div>
+			{/* Map */}
+			<div>Map</div>
+			{/* directions */}
+			<div>Directions</div>
+			{/* Rules */}
+			<div>Rules</div>
+			{/* Reviews */}
 			<div>Reviews</div>
 		</div>
 	)

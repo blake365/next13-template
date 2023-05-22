@@ -85,6 +85,7 @@ model Campsite {
   primitive        Boolean?
   potableWater     Boolean?
   toilets          Boolean?
+  electricity      Boolean?
   // relationships
   bookings         Booking[]
   reviews          Review[]
