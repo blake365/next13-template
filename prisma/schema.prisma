@@ -38,7 +38,14 @@ model Session {
 // user model for campsite website
 model User {
   id            String    @id @unique @default(uuid())
-  name          String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  firstName     String?
+  lastName      String?
+  streetAddress String?
+  city          String?
+  state         String?
+  zip           String?
   email         String?   @unique
   emailVerified DateTime?
   dateOfBirth   DateTime?

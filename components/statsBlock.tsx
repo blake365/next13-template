@@ -2,7 +2,7 @@
 
 import { CheckCircle, XCircle } from '@phosphor-icons/react'
 
-export default function StatsBlock({ camp }) {
+export default function StatsBlock({ camp }: { camp: any }) {
 	return (
 		<div className='flex flex-row flex-wrap py-1 bg-gray-100 border border-teal-600 rounded-md shadow-md justify-evenly'>
 			<div className='flex flex-col items-center '>

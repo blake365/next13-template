@@ -2,7 +2,7 @@
 
 import { CheckCircle, XCircle } from '@phosphor-icons/react'
 
-export default function AmenityBlock({ camp }) {
+export default function AmenityBlock({ camp }: { camp: any }) {
 	return (
 		<div className='flex flex-col p-4 space-y-2 rounded-md'>
 			<div className='text-lg font-bold'>Amenities</div>

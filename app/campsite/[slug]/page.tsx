@@ -6,6 +6,7 @@ import BookCalendar from '@/components/calendar'
 import StatsBlock from '@/components/statsBlock'
 import AmenityBlock from '@/components/amenityBlock'
 import MapAndDirections from '@/components/mapAndDirections'
+import Rules from '@/components/rules'
 
 interface Props {
 	params: {
@@ -77,6 +78,7 @@ export default async function CampsiteDetail({ params }: Props) {
 					{/* TODO: contact with questions or special accommodations */}
 					<AmenityBlock camp={camp} />
 					<MapAndDirections camp={camp} />
+					<Rules rules={camp.rules!} />
 				</div>
 
 				{/* booking calendar */}
@@ -87,7 +89,6 @@ export default async function CampsiteDetail({ params }: Props) {
 			{/* Map */}
 			{/* directions */}
 			{/* Rules */}
-			<div>Rules</div>
 			{/* Reviews */}
 			<div>Reviews</div>
 		</div>

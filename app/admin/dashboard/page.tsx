@@ -2,9 +2,11 @@ import { authOptions } from '../../api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
+import { BookingColumns } from '@/components/bookTable/columns'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import AdminCampWrapper from '@/components/adminCampWrapper'
+import { DataTable } from '@/components/bookTable/data-table'
 
 // admin dashboard with features to manage campsites, users, and bookings
 export default async function Dashboard() {
@@ -26,6 +28,15 @@ export default async function Dashboard() {
 
 	!admin && redirect('/api/auth/signin')
 
+	const bookings = await prisma.booking.findMany({
+		include: {
+			campsite: true,
+			User: true,
+		},
+	})
+
+	const users = await prisma.user.findMany()
+
 	return (
 		<div className=''>
 			<h1 className='text-4xl'>Admin Dashboard</h1>
@@ -37,7 +48,9 @@ export default async function Dashboard() {
 						<TabsTrigger value='users'>Users</TabsTrigger>
 						<TabsTrigger value='campsites'>Campsites</TabsTrigger>
 					</TabsList>
-					<TabsContent value='bookings'>List of bookings here</TabsContent>
+					<TabsContent value='bookings'>
+						<DataTable columns={BookingColumns} data={bookings} />
+					</TabsContent>
 					<TabsContent value='users'>List of users here</TabsContent>
 					<TabsContent value='campsites'>
 						<AdminCampWrapper admin={admin} />
