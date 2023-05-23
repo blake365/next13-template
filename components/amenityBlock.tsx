@@ -1,6 +1,6 @@
 'use client'
 
-import { Campfire, CheckCircle, XCircle } from '@phosphor-icons/react'
+import { CheckCircle, XCircle } from '@phosphor-icons/react'
 
 export default function AmenityBlock({ camp }) {
 	return (

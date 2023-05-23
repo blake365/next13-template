@@ -43,14 +43,11 @@ export default function CampsiteCard({ camp, admin }: any) {
 			<div>{camp.shortDescription}</div>
 			<div className='flex flex-row justify-start w-full space-x-4'>
 				{camp.open ? (
-					<Link href={`/campsite/${camp.slug}/book`}>
-						<button
-							className='px-2 py-1 text-white bg-teal-500 rounded-md shadow-md hover:bg-teal-700'
-							disabled={camp.open}
-						>
+					<a href={`/campsite/${camp.slug}#booking`}>
+						<button className='px-2 py-1 text-white bg-teal-500 rounded-md shadow-md hover:bg-teal-700'>
 							Book Now
 						</button>
-					</Link>
+					</a>
 				) : (
 					<button
 						className='px-2 py-1 text-black bg-gray-300 rounded-md shadow-md'

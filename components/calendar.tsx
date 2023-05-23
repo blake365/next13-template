@@ -107,7 +107,7 @@ export default function BookCalendar({ camp }) {
 	// console.log((range?.to - range?.from) / 60 / 60 / 24 / 1000 + 1)
 
 	return (
-		<div className='flex flex-col p-2 mx-auto space-y-2 bg-gray-100 border border-teal-600 rounded-md shadow-md w-fit'>
+		<div className='sticky flex flex-col p-2 mx-auto space-y-2 bg-gray-100 border border-teal-600 rounded-md shadow-md top-20 w-fit'>
 			<style>{css}</style>
 			<div className='flex flex-row items-center justify-between mr-6 align-middle'>
 				<h3 className='inline ml-5 text-xl font-bold'>Price per Night:</h3>

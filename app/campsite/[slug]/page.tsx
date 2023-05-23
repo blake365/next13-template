@@ -5,6 +5,7 @@ import ImageBlock from '@/components/imageBlock'
 import BookCalendar from '@/components/calendar'
 import StatsBlock from '@/components/statsBlock'
 import AmenityBlock from '@/components/amenityBlock'
+import MapAndDirections from '@/components/mapAndDirections'
 
 interface Props {
 	params: {
@@ -29,6 +30,7 @@ export default async function CampsiteDetail({ params }: Props) {
 		},
 		include: {
 			bookings: true,
+			reviews: true,
 		},
 	})
 
@@ -46,14 +48,18 @@ export default async function CampsiteDetail({ params }: Props) {
 	return (
 		<div className='flex flex-col justify-start min-h-screen gap-4 mb-6 '>
 			{/* header */}
-			<div className='sticky top-0 z-10 flex flex-row items-center w-full py-4 mt-4 bg-white/75'>
-				<h1 className='flex-grow ml-2 text-5xl font-bold'>{camp.name}</h1>
+			<div className='sticky top-0 z-10 flex flex-row items-center w-full py-2 pt-4 bg-white/90'>
+				<h1 className='flex-grow ml-2 text-3xl font-bold sm:text-4xl'>
+					{camp.name}
+				</h1>
 				{camp.open ? (
-					<div className='px-4 py-2 mr-2 text-xl text-green-600 border border-green-600 rounded-full'>
-						OPEN
-					</div>
+					<a href='#booking'>
+						<button className='p-1 px-4 mr-2 text-xl text-white bg-teal-600 rounded-full shadow-md hover:bg-teal-700'>
+							Book
+						</button>
+					</a>
 				) : (
-					<div className='px-4 py-2 mr-2 text-xl text-white bg-red-600 border border-red-600 rounded-full'>
+					<div className='p-1 px-4 mr-2 text-xl text-white bg-red-600 border border-red-600 rounded-full'>
 						CLOSED
 					</div>
 				)}
@@ -68,18 +74,18 @@ export default async function CampsiteDetail({ params }: Props) {
 				<div className='flex-grow space-y-4'>
 					<StatsBlock camp={camp} />
 					<div className='px-4 text-lg'>{camp.longDescription}</div>
+					{/* TODO: contact with questions or special accommodations */}
 					<AmenityBlock camp={camp} />
+					<MapAndDirections camp={camp} />
 				</div>
 
 				{/* booking calendar */}
-				<div className=''>
+				<div className='' id='booking'>
 					<BookCalendar camp={camp} />
 				</div>
 			</div>
 			{/* Map */}
-			<div>Map</div>
 			{/* directions */}
-			<div>Directions</div>
 			{/* Rules */}
 			<div>Rules</div>
 			{/* Reviews */}
