@@ -2,7 +2,7 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 
-import { MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal, ArrowUpDown } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -13,6 +13,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import Link from 'next/link'
 
 export type Booking = {
 	id: string
@@ -25,9 +26,12 @@ export type Booking = {
 	status: string
 	campsite: {
 		name: string
+		id: string
+		slug: string
 	}
 	User: {
 		email: string
+		id: string
 	}
 }
 
@@ -35,7 +39,7 @@ export const BookingColumns: ColumnDef<Booking>[] = [
 	{
 		id: 'actions',
 		cell: ({ row }) => {
-			const payment = row.original
+			const booking = row.original
 
 			return (
 				<DropdownMenu>
@@ -49,13 +53,17 @@ export const BookingColumns: ColumnDef<Booking>[] = [
 						{/* TODO: update actions */}
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<DropdownMenuItem
-							onClick={() => navigator.clipboard.writeText(payment.id)}
+							onClick={() => navigator.clipboard.writeText(booking.id)}
 						>
-							Copy payment ID
+							Edit
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>View customer</DropdownMenuItem>
-						<DropdownMenuItem>View payment details</DropdownMenuItem>
+						<DropdownMenuItem>View booking</DropdownMenuItem>
+
+						<Link href={`/campsite/${booking.campsite.slug}`}>
+							<DropdownMenuItem>View campsite</DropdownMenuItem>
+						</Link>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			)
@@ -67,7 +75,17 @@ export const BookingColumns: ColumnDef<Booking>[] = [
 	},
 	{
 		accessorKey: 'createdAt',
-		header: 'Created',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Created
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
 		cell: ({ row }) => {
 			const amount: Date = row.getValue('createdAt')
 			const formatted = new Intl.DateTimeFormat('en-US', {}).format(amount)
@@ -77,7 +95,17 @@ export const BookingColumns: ColumnDef<Booking>[] = [
 	},
 	{
 		accessorKey: 'startDate',
-		header: 'Start Date',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Start Date
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
 		cell: ({ row }) => {
 			const amount: Date = row.getValue('startDate')
 			const formatted = new Intl.DateTimeFormat('en-US', {}).format(amount)
@@ -87,7 +115,17 @@ export const BookingColumns: ColumnDef<Booking>[] = [
 	},
 	{
 		accessorKey: 'endDate',
-		header: 'End Date',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					End Date
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
 		cell: ({ row }) => {
 			const amount: Date = row.getValue('endDate')
 			const formatted = new Intl.DateTimeFormat('en-US', {}).format(amount)
@@ -105,7 +143,17 @@ export const BookingColumns: ColumnDef<Booking>[] = [
 	},
 	{
 		accessorKey: 'totalCost',
-		header: () => <div className='text-right'>Total Cost</div>,
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Total Cost
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
 		cell: ({ row }) => {
 			const amount = parseFloat(row.getValue('totalCost'))
 			const formatted = new Intl.NumberFormat('en-US', {
@@ -113,7 +161,7 @@ export const BookingColumns: ColumnDef<Booking>[] = [
 				currency: 'USD',
 			}).format(amount)
 
-			return <div className='font-medium text-right'>{formatted}</div>
+			return <div className=''>{formatted}</div>
 		},
 	},
 	{

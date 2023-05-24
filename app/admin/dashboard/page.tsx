@@ -7,6 +7,8 @@ import { BookingColumns } from '@/components/bookTable/columns'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import AdminCampWrapper from '@/components/adminCampWrapper'
 import { DataTable } from '@/components/bookTable/data-table'
+import { UserColumns } from '@/components/userTable/columns'
+import { CampColumns } from '@/components/campTable/columns'
 
 // admin dashboard with features to manage campsites, users, and bookings
 export default async function Dashboard() {
@@ -18,7 +20,6 @@ export default async function Dashboard() {
 
 	const currentUserEmail = session?.user?.email!
 
-	// console.log(currentUserEmail)
 	const admin = await prisma.user.findFirst({
 		where: {
 			email: currentUserEmail,
@@ -37,6 +38,8 @@ export default async function Dashboard() {
 
 	const users = await prisma.user.findMany()
 
+	const campsites = await prisma.campsite.findMany()
+
 	return (
 		<div className=''>
 			<h1 className='text-4xl'>Admin Dashboard</h1>
@@ -49,11 +52,17 @@ export default async function Dashboard() {
 						<TabsTrigger value='campsites'>Campsites</TabsTrigger>
 					</TabsList>
 					<TabsContent value='bookings'>
-						<DataTable columns={BookingColumns} data={bookings} />
+						<DataTable
+							columns={BookingColumns}
+							data={bookings}
+							filter='status'
+						/>
 					</TabsContent>
-					<TabsContent value='users'>List of users here</TabsContent>
+					<TabsContent value='users'>
+						<DataTable columns={UserColumns} data={users} filter='email' />
+					</TabsContent>
 					<TabsContent value='campsites'>
-						<AdminCampWrapper admin={admin} />
+						<DataTable columns={CampColumns} data={campsites} filter='open' />
 					</TabsContent>
 				</Tabs>
 			</div>

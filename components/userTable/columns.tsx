@@ -2,8 +2,8 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 
-import { MoreHorizontal } from 'lucide-react'
-
+import { MoreHorizontal, ArrowUpDown } from 'lucide-react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -16,10 +16,13 @@ import {
 
 export type User = {
 	id: string
-	name: string
+	firstName: string
+	lastName: string
 	email: string
 	dateOfBirth: Date
 	role: string
+	createdAt: Date
+	updatedAt: Date
 }
 
 export const UserColumns: ColumnDef<User>[] = [
@@ -42,77 +45,111 @@ export const UserColumns: ColumnDef<User>[] = [
 						<DropdownMenuItem
 							onClick={() => navigator.clipboard.writeText(payment.id)}
 						>
-							Copy payment ID
+							Edit
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>View customer</DropdownMenuItem>
-						<DropdownMenuItem>View payment details</DropdownMenuItem>
+						<DropdownMenuItem>View user</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			)
 		},
 	},
 	{
-		accessorKey: 'status',
-		header: 'Status',
+		accessorKey: 'firstName',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					First
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
+	},
+	{
+		accessorKey: 'lastName',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Last
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
+	},
+	{
+		accessorKey: 'email',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Email
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
+	},
+	{
+		accessorKey: 'dateOfBirth',
+		header: 'DOB',
+	},
+	{
+		accessorKey: 'role',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Role
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
 	},
 	{
 		accessorKey: 'createdAt',
-		header: 'Created',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Created
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
 		cell: ({ row }) => {
 			const amount: Date = row.getValue('createdAt')
 			const formatted = new Intl.DateTimeFormat('en-US', {}).format(amount)
-
 			return <div className='font-medium'>{formatted}</div>
 		},
 	},
 	{
-		accessorKey: 'startDate',
-		header: 'Start Date',
+		accessorKey: 'updatedAt',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Updated
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
 		cell: ({ row }) => {
-			const amount: Date = row.getValue('startDate')
+			const amount: Date = row.getValue('updatedAt')
 			const formatted = new Intl.DateTimeFormat('en-US', {}).format(amount)
-
 			return <div className='font-medium'>{formatted}</div>
 		},
-	},
-	{
-		accessorKey: 'endDate',
-		header: 'End Date',
-		cell: ({ row }) => {
-			const amount: Date = row.getValue('endDate')
-			const formatted = new Intl.DateTimeFormat('en-US', {}).format(amount)
-
-			return <div className='font-medium'>{formatted}</div>
-		},
-	},
-	{
-		accessorKey: 'numberOfNights',
-		header: 'Nights',
-	},
-	{
-		accessorKey: 'numberOfGuests',
-		header: 'Guests',
-	},
-	{
-		accessorKey: 'totalCost',
-		header: () => <div className='text-right'>Total Cost</div>,
-		cell: ({ row }) => {
-			const amount = parseFloat(row.getValue('totalCost'))
-			const formatted = new Intl.NumberFormat('en-US', {
-				style: 'currency',
-				currency: 'USD',
-			}).format(amount)
-
-			return <div className='font-medium text-right'>{formatted}</div>
-		},
-	},
-	{
-		accessorKey: 'campsite.name',
-		header: 'Campsite',
-	},
-	{
-		accessorKey: 'User.email',
-		header: 'User',
 	},
 ]
