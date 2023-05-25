@@ -56,13 +56,24 @@ export default async function Dashboard() {
 							columns={BookingColumns}
 							data={bookings}
 							filter='status'
+							button={false}
 						/>
 					</TabsContent>
 					<TabsContent value='users'>
-						<DataTable columns={UserColumns} data={users} filter='email' />
+						<DataTable
+							columns={UserColumns}
+							data={users}
+							filter='email'
+							button={false}
+						/>
 					</TabsContent>
 					<TabsContent value='campsites'>
-						<DataTable columns={CampColumns} data={campsites} filter='open' />
+						<DataTable
+							columns={CampColumns}
+							data={campsites}
+							filter='open'
+							button={true}
+						/>
 					</TabsContent>
 				</Tabs>
 			</div>

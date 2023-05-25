@@ -59,40 +59,40 @@ model User {
 model Campsite {
   id               String    @id @unique @default(uuid())
   name             String
-  subtitle         String?
+  subtitle         String?   @default("")
   slug             String?   @unique
   updatedAt        DateTime  @updatedAt
-  longDescription  String?
-  shortDescription String?
-  rules            String?
-  cancellation     String?
+  longDescription  String?   @default("")
+  shortDescription String?   @default("")
+  rules            String?   @default("")
+  cancellation     String?   @default("")
   // location information
-  location         String?
-  latitude         Float?
-  longitude        Float?
-  directions       String?
-  streetAddress    String?
-  city             String?
-  state            String?
-  zip              String?
+  location         String?   @default("")
+  latitude         Float?    @default(0)
+  longitude        Float?    @default(0)
+  directions       String?   @default("")
+  streetAddress    String?   @default("")
+  city             String?   @default("")
+  state            String?   @default("")
+  zip              String?   @default("")
   // images
-  mainImage        String?
-  image2           String?
-  image3           String?
-  mapImage         String?
+  mainImage        String?   @default("")
+  image2           String?   @default("")
+  image3           String?   @default("")
+  mapImage         String?   @default("")
   images           String[]
   // stats
-  capacity         Int?
-  pets             Boolean?
-  price            Int?
-  open             Boolean?
+  capacity         Int?      @default(2)
+  pets             Boolean?  @default(false)
+  price            Int?      @default(20)
+  open             Boolean?  @default(false)
   // amenities
-  firePit          Boolean?
-  picnicTable      Boolean?
-  primitive        Boolean?
-  potableWater     Boolean?
-  toilets          Boolean?
-  electricity      Boolean?
+  firePit          Boolean?  @default(false)
+  picnicTable      Boolean?  @default(false)
+  primitive        Boolean?  @default(false)
+  potableWater     Boolean?  @default(false)
+  toilets          Boolean?  @default(false)
+  electricity      Boolean?  @default(false)
   // relationships
   bookings         Booking[]
   reviews          Review[]

@@ -1,10 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-
 import { ColumnDef } from '@tanstack/react-table'
-
-import { MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal, ArrowUpDown } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -30,7 +28,6 @@ export const CampColumns: ColumnDef<Camp>[] = [
 		id: 'actions',
 		cell: ({ row }) => {
 			const campsite = row.original
-
 			return (
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
@@ -58,13 +55,33 @@ export const CampColumns: ColumnDef<Camp>[] = [
 	},
 	{
 		accessorKey: 'name',
-		header: 'Name',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Name
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
 	},
 	{
 		accessorKey: 'open',
-		header: 'Status',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Status
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
 		cell: ({ row }) => {
-			console.log(row.getValue('open'))
+			// console.log(row.getValue('open'))
 			return row.getValue('open') ? (
 				<div className='font-medium'>Open</div>
 			) : (
@@ -74,7 +91,17 @@ export const CampColumns: ColumnDef<Camp>[] = [
 	},
 	{
 		accessorKey: 'price',
-		header: 'Price per night',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Price / Night
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
 		cell: ({ row }) => {
 			const amount = parseFloat(row.getValue('price'))
 			const formatted = new Intl.NumberFormat('en-US', {
@@ -87,6 +114,16 @@ export const CampColumns: ColumnDef<Camp>[] = [
 	},
 	{
 		accessorKey: 'capacity',
-		header: 'Capacity',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Capacity
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
 	},
 ]

@@ -3,12 +3,23 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../auth/[...nextauth]/route'
 
-// get all campsites
+// get a campsite
 export async function GET(req: Request, res: Response) {
-	const campsites = await prisma.campsite.findMany()
+	const { searchParams } = new URL(req.url)
+	const slug = searchParams.get('slug')
+	// console.log('slug', slug)
 
-	// console.log('campsites', campsites)
-	return NextResponse.json(campsites)
+	if (!slug) {
+		return NextResponse.json("Missing 'slug' parameter")
+	}
+
+	const campsite = await prisma.campsite.findUnique({
+		where: {
+			slug: slug,
+		},
+	})
+
+	return NextResponse.json(campsite)
 }
 
 // edit a campsite
@@ -62,7 +73,6 @@ export async function POST(req: Request, res: Response) {
 
 	const data = await req.json()
 	data.slug = data.name.toLowerCase().replace(/ /g, '_')
-	delete data.id
 	// console.log('data', data)
 	const campsite = await prisma.campsite.create({
 		data,

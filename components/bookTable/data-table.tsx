@@ -24,17 +24,21 @@ import {
 
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
+import { redirect } from 'next/navigation'
+import { prisma } from '@/lib/prisma'
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]
 	data: TData[]
 	filter: string
+	button: boolean
 }
 
 export function DataTable<TData, TValue>({
 	columns,
 	data,
 	filter,
+	button,
 }: DataTableProps<TData, TValue>) {
 	const [sorting, setSorting] = React.useState<SortingState>([])
 
@@ -56,9 +60,30 @@ export function DataTable<TData, TValue>({
 		},
 	})
 
+	async function createCampsite() {
+		console.log('createCampsite')
+
+		const body = {
+			name: 'New Campsite',
+		}
+
+		const res = await fetch('/api/campsite', {
+			method: 'POST',
+			body: JSON.stringify(body),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+
+		await res.json().then((data) => {
+			console.log('data', data.slug)
+			redirect(`/admin/campsite/${data.slug}`)
+		})
+	}
+
 	return (
 		<div className='border rounded-md'>
-			<div className='flex items-center py-4 mx-4'>
+			<div className='flex items-center justify-between py-4 mx-4'>
 				<Input
 					placeholder={`Filter ${filter}...`}
 					value={(table.getColumn(filter)?.getFilterValue() as string) ?? ''}
@@ -67,6 +92,16 @@ export function DataTable<TData, TValue>({
 					}
 					className='max-w-sm'
 				/>
+				{button && (
+					<Button
+						className='bg-green-600 hover:bg-green-700'
+						onClick={() => {
+							createCampsite()
+						}}
+					>
+						New Campsite
+					</Button>
+				)}
 			</div>
 			<Table>
 				<TableHeader>
