@@ -5,7 +5,6 @@ import { prisma } from '@/lib/prisma'
 import { BookingColumns } from '@/components/bookTable/columns'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import AdminCampWrapper from '@/components/adminCampWrapper'
 import { DataTable } from '@/components/bookTable/data-table'
 import { UserColumns } from '@/components/userTable/columns'
 import { CampColumns } from '@/components/campTable/columns'
@@ -50,6 +49,8 @@ export default async function Dashboard() {
 						<TabsTrigger value='bookings'>Bookings</TabsTrigger>
 						<TabsTrigger value='users'>Users</TabsTrigger>
 						<TabsTrigger value='campsites'>Campsites</TabsTrigger>
+						<TabsTrigger value='reviews'>Reviews</TabsTrigger>
+						<TabsTrigger value='addons'>Addons</TabsTrigger>
 					</TabsList>
 					<TabsContent value='bookings'>
 						<DataTable
@@ -74,6 +75,12 @@ export default async function Dashboard() {
 							filter='open'
 							button={true}
 						/>
+					</TabsContent>
+					<TabsContent value='reviews'>
+						<p>Reviews</p>
+					</TabsContent>
+					<TabsContent value='addons'>
+						<p>Addons</p>
 					</TabsContent>
 				</Tabs>
 			</div>

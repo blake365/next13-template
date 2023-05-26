@@ -39,11 +39,9 @@ export const CampColumns: ColumnDef<Camp>[] = [
 					<DropdownMenuContent align='end'>
 						{/* TODO: update actions */}
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
-						<DropdownMenuItem
-							onClick={() => navigator.clipboard.writeText(campsite.id)}
-						>
-							Edit
-						</DropdownMenuItem>
+						<Link href={`admin/campsite/${campsite.slug}`}>
+							<DropdownMenuItem>Edit</DropdownMenuItem>
+						</Link>
 						<DropdownMenuSeparator />
 						<Link href={`/campsite/${campsite.slug}`}>
 							<DropdownMenuItem>View campsite</DropdownMenuItem>

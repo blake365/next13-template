@@ -1,12 +1,9 @@
 'use client'
 
-import ImageBlock from '@/components/imageBlock'
-import BookCalendar from '@/components/calendar'
-import StatsBlock from '@/components/statsBlock'
-import AmenityBlock from '@/components/amenityBlock'
-import MapAndDirections from '@/components/mapAndDirections'
-import Rules from '@/components/rules'
 import { useEffect, useState } from 'react'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 
 interface Props {
 	params: {
@@ -14,7 +11,7 @@ interface Props {
 	}
 }
 
-// page containing detailed information about a campsite
+// page with form to edit campsite data
 
 export default function CampsiteDetail({ params }: Props) {
 	console.log(params.slug)
@@ -39,75 +36,178 @@ export default function CampsiteDetail({ params }: Props) {
 	}, [])
 
 	// console.log(camp)
-
-	let allImages = { main: '', image1: '', image2: '' }
-	allImages.main = camp.mainImage
-	allImages.image1 = camp.mainImage
-	allImages.image2 = camp.mainImage
-
 	const updateCamp = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		console.log('updating camp')
+
+		const formData = new FormData(e.currentTarget)
 	}
 
 	return (
 		<form onSubmit={updateCamp}>
-			<div className='flex flex-col justify-start min-h-screen gap-4 mb-6 '>
-				{/* header */}
-				<div className='sticky top-0 z-10 flex flex-row items-center w-full py-2 pt-4 bg-white/90'>
-					<h1 className='flex-grow ml-2 text-3xl sm:text-4xl'>
-						<input
-							type='text'
-							className='w-full text-gray-600'
-							defaultValue={camp.name}
-						/>
-					</h1>
-					{camp.open ? (
-						<a href='#booking'>
-							<button className='p-1 px-4 mr-2 text-xl text-white bg-teal-600 rounded-full shadow-md hover:bg-teal-700'>
-								Book
-							</button>
-						</a>
-					) : (
-						<div className='p-1 px-4 mr-2 text-xl text-white bg-red-600 border border-red-600 rounded-full'>
-							CLOSED
-						</div>
-					)}
+			{loading ? (
+				<div>loading...</div>
+			) : (
+				<div className='flex flex-col justify-start min-h-screen gap-4 mb-6 '>
+					<Label htmlFor='name'>Camp Name</Label>
+					<Input type='text' name='name' defaultValue={camp.name ?? ''} />
+					<Label htmlFor='longDescription'> Long Description </Label>
+					<Textarea
+						name='longDescription'
+						cols={30}
+						rows={10}
+						defaultValue={camp.longDescription ?? ''}
+					></Textarea>
+					<Label htmlFor='shortDescription'> Card Description </Label>
+					<Textarea
+						name='shortDescription'
+						cols={30}
+						rows={10}
+						defaultValue={camp.shortDescription ?? ''}
+					></Textarea>
+					<Label htmlFor='rules'> Rules </Label>
+					<Textarea
+						name='rules'
+						cols={30}
+						rows={10}
+						defaultValue={camp.rules ?? ''}
+					></Textarea>
+					<Label htmlFor='cancellation'> Cancellation Policy </Label>
+					<Textarea
+						name='cancellation'
+						cols={30}
+						rows={10}
+						defaultValue={camp.cancellation ?? ''}
+					></Textarea>
+					<Label htmlFor='location'>Location</Label>
+					<Input
+						type='text'
+						name='location'
+						defaultValue={camp.location ?? ''}
+					/>
+
+					<Label htmlFor='latitude'>Latitude</Label>
+					<Input
+						type='number'
+						name='latitude'
+						defaultValue={camp.latitude ?? ''}
+					/>
+					<Label htmlFor='longitude'>Longitude</Label>
+					<Input
+						type='number'
+						name='longitude'
+						defaultValue={camp.longitude ?? ''}
+					/>
+
+					<Label htmlFor='directions'> Directions </Label>
+					<Textarea
+						name='directions'
+						cols={30}
+						rows={10}
+						defaultValue={camp.directions ?? ''}
+					></Textarea>
+
+					<Label htmlFor='streetAddress'> Street Address </Label>
+					<Input
+						type='text'
+						name='streetAddress'
+						defaultValue={camp.streetAddress ?? ''}
+					/>
+
+					<Label htmlFor='city'> City </Label>
+					<Input type='text' name='city' defaultValue={camp.city ?? ''} />
+
+					<Label htmlFor='state'> State </Label>
+					<Input type='text' name='state' defaultValue={camp.state ?? ''} />
+
+					<Label htmlFor='zip'> Zip </Label>
+					<Input type='text' name='zip' defaultValue={camp.zip ?? ''} />
+
+					<Label htmlFor='capacity'> Capacity </Label>
+					<Input
+						type='number'
+						name='capacity'
+						defaultValue={camp.capacity ?? 2}
+					/>
+
+					<Label htmlFor='price'> Price </Label>
+					<Input type='number' name='price' defaultValue={camp.price ?? 20} />
+
+					<Label htmlFor='pets'>Pets</Label>
+					<select name='pets' id='pets' defaultValue={camp.pets ?? false}>
+						<option value='true'>Allowed</option>
+						<option value='false'>Not Allowed</option>
+					</select>
+
+					<Label htmlFor='open'>Open</Label>
+					<select name='open' id='open' defaultValue={camp.open ?? false}>
+						<option value='true'>Open</option>
+						<option value='false'>Closed</option>
+					</select>
+
+					<Label htmlFor='electricity'>Electricity</Label>
+					<select
+						name='electricity'
+						id='electricity'
+						defaultValue={camp.electricity ?? false}
+					>
+						<option value='true'>Available</option>
+						<option value='false'>Not Available</option>
+					</select>
+
+					<Label htmlFor='potableWater'>Potable Water</Label>
+					<select
+						name='potableWater'
+						id='potableWater'
+						defaultValue={camp.potableWater ?? false}
+					>
+						<option value='true'>Available</option>
+						<option value='false'>Not Available</option>
+					</select>
+
+					<Label htmlFor='toilets'>Toilets</Label>
+					<select
+						name='toilets'
+						id='toilets'
+						defaultValue={camp.toilets ?? false}
+					>
+						<option value='true'>Available</option>
+						<option value='false'>Not Available</option>
+					</select>
+
+					<Label htmlFor='primitive'>Primitive</Label>
+					<select
+						name='primitive'
+						id='primitive'
+						defaultValue={camp.primitive ?? false}
+					>
+						<option value='true'>Yes</option>
+						<option value='false'>No</option>
+					</select>
+
+					<Label htmlFor='picnicTable'>Picnic Table</Label>
+					<select
+						name='picnicTable'
+						id='picnicTable'
+						defaultValue={camp.picnicTable ?? false}
+					>
+						<option value='true'>Available</option>
+						<option value='false'>Not Available</option>
+					</select>
+
+					<Label htmlFor='firePit'>Fire Pit</Label>
+					<select
+						name='firePit'
+						id='firePit'
+						defaultValue={camp.firePit ?? false}
+					>
+						<option value='true'>Available</option>
+						<option value='false'>Not Available</option>
+					</select>
+
+					{/* image uploads */}
 				</div>
-				{/* campsite images */}
-				<ImageBlock images={allImages} loading={false} />
-
-				{/* other information */}
-				<div className='flex flex-col sm:space-x-5 md:flex-row'>
-					{/* description */}
-
-					<div className='flex-grow space-y-4'>
-						<StatsBlock camp={camp} />
-						<div className='px-4 text-lg'>
-							<textarea
-								name='longDescription'
-								className='w-full text-gray-600'
-								placeholder={camp.longDescription}
-								rows={10}
-							></textarea>
-						</div>
-						{/* TODO: contact with questions or special accommodations */}
-						<AmenityBlock camp={camp} />
-						{/* <MapAndDirections camp={camp} /> */}
-						{/* <Rules rules={camp.rules!} /> */}
-					</div>
-
-					{/* booking calendar */}
-					<div className='' id='booking'>
-						{/* <BookCalendar camp={camp} /> */}
-					</div>
-				</div>
-				{/* Map */}
-				{/* directions */}
-				{/* Rules */}
-				{/* Reviews */}
-				<div>Reviews</div>
-			</div>
+			)}
+			<button type='submit'>Update Camp</button>
 		</form>
 	)
 }

@@ -135,11 +135,31 @@ export const BookingColumns: ColumnDef<Booking>[] = [
 	},
 	{
 		accessorKey: 'numberOfNights',
-		header: 'Nights',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Nights
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
 	},
 	{
 		accessorKey: 'numberOfGuests',
-		header: 'Guests',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='ghost'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Guests
+					<ArrowUpDown className='w-4 h-4 ml-2' />
+				</Button>
+			)
+		},
 	},
 	{
 		accessorKey: 'totalCost',
