@@ -24,8 +24,7 @@ import {
 
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
-import { redirect } from 'next/navigation'
-import { prisma } from '@/lib/prisma'
+import { useRouter } from 'next/navigation'
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]
@@ -40,6 +39,8 @@ export function DataTable<TData, TValue>({
 	filter,
 	button,
 }: DataTableProps<TData, TValue>) {
+	const router = useRouter()
+
 	const [sorting, setSorting] = React.useState<SortingState>([])
 
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -77,7 +78,7 @@ export function DataTable<TData, TValue>({
 
 		await res.json().then((data) => {
 			console.log('data', data.slug)
-			redirect(`/admin/campsite/${data.slug}`)
+			router.push(`/admin/campsite/${data.slug}`)
 		})
 	}
 

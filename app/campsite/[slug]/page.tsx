@@ -41,10 +41,11 @@ export default async function CampsiteDetail({ params }: Props) {
 
 	// console.log(camp)
 
-	let allImages = { main: '', image1: '', image2: '' }
-	allImages.main = camp.mainImage
-	allImages.image1 = camp.mainImage
-	allImages.image2 = camp.mainImage
+	let allImages = {
+		main: camp.mainImage,
+		image1: camp.image2,
+		image2: camp.image3,
+	}
 
 	return (
 		<div className='flex flex-col justify-start min-h-screen gap-4 mb-6 '>

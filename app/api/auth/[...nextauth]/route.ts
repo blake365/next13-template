@@ -33,6 +33,10 @@ export const authOptions: NextAuthOptions = {
 			else if (new URL(url).origin === baseUrl) return url
 			return baseUrl
 		},
+		session({ session, user }) {
+			session.user.role = user.role
+			return session
+		},
 	},
 }
 

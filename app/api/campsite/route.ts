@@ -24,6 +24,7 @@ export async function GET(req: Request, res: Response) {
 
 // edit a campsite
 export async function PUT(req: Request, res: Response) {
+	console.log('updating campsite')
 	const session = await getServerSession(authOptions)
 
 	const currentUserEmail = session?.user?.email!
@@ -41,7 +42,26 @@ export async function PUT(req: Request, res: Response) {
 	}
 
 	const data = await req.json()
-	data.slug = data.name.toLowerCase().replace(/ /g, '_')
+
+	if (data.name) {
+		data.name = data.name || undefined
+		data.slug = data.name.toLowerCase().replace(/ /g, '_') || undefined
+	} else {
+		data.slug = undefined
+		data.name = undefined
+	}
+	data.latitude = Number(data.latitude) || undefined
+	data.longitude = Number(data.longitude) || undefined
+	data.capacity = Number(data.capacity) || undefined
+	data.price = Number(data.price) || undefined
+	data.open = Boolean(data.open === 'true') || undefined
+	data.primitive = Boolean(data.primitive === 'true') || undefined
+	data.electricity = Boolean(data.electricity === 'true') || undefined
+	data.picnicTable = Boolean(data.picnicTable === 'true') || undefined
+	data.pets = Boolean(data.pets === 'true') || undefined
+	data.toilets = Boolean(data.toilets === 'true') || undefined
+	data.firePit = Boolean(data.firePit === 'true') || undefined
+	data.potableWater = Boolean(data.potableWater === 'true') || undefined
 	// console.log('data', data)
 	const campsite = await prisma.campsite.update({
 		where: {
@@ -50,6 +70,7 @@ export async function PUT(req: Request, res: Response) {
 		data,
 	})
 
+	console.log('campsite updated')
 	return NextResponse.json(campsite)
 }
 

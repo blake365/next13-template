@@ -17,16 +17,9 @@ export default async function Dashboard() {
 		redirect('/api/auth/signin')
 	}
 
-	const currentUserEmail = session?.user?.email!
-
-	const admin = await prisma.user.findFirst({
-		where: {
-			email: currentUserEmail,
-			role: 'admin',
-		},
-	})
-
-	!admin && redirect('/api/auth/signin')
+	if (session?.user.role !== 'admin') {
+		redirect('/api/auth/signin')
+	}
 
 	const bookings = await prisma.booking.findMany({
 		include: {
