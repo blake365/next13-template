@@ -49,7 +49,7 @@ function PictureUpload({ camp }) {
 			'https://hkalrotbophnaqzzywdi.supabase.co/storage/v1/object/public/images/' +
 			data.path
 
-		https: if (name === 'mainImage') {
+		if (name === 'mainImage') {
 			// send an api request to update the mainImage on the campsite
 			const body = {
 				id: camp.id,

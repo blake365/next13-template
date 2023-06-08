@@ -57,7 +57,7 @@ export default async function CampsiteDetail({ params }: Props) {
 				{camp.open ? (
 					<a href='#booking'>
 						<button className='p-1 px-4 mr-2 text-xl text-white bg-teal-600 rounded-full shadow-md hover:bg-teal-700'>
-							Book
+							Go to Calendar
 						</button>
 					</a>
 				) : (
@@ -87,10 +87,7 @@ export default async function CampsiteDetail({ params }: Props) {
 					<BookCalendar camp={camp} />
 				</div>
 			</div>
-			{/* Map */}
-			{/* directions */}
-			{/* Rules */}
-			{/* Reviews */}
+
 			<div>Reviews</div>
 		</div>
 	)

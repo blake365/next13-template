@@ -17,7 +17,7 @@ export function SignInButton() {
 	if (status === 'authenticated') {
 		return (
 			<>
-				<Link href={`/dashboard`}>User Dashboard</Link>
+				<Link href={`/dashboard`}>My Profile</Link>
 				<SignOutButton />
 			</>
 		)
